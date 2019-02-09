@@ -1,50 +1,24 @@
-set smartindent
-set nocompatible              " be iMproved, required
-filetype off                  " required
-
-" set the runtime path to include Vundle and initialize
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
-" alternatively, pass a path where Vundle should install plugins
-"call vundle#begin('~/some/path/here')
-
-" let Vundle manage Vundle, required
-Plugin 'VundleVim/Vundle.vim'
-
-" The following are examples of different formats supported.
-" Keep Plugin commands between vundle#begin/end.
-
-Plugin 'tomlion/vim-solidity'
-
-" All of your Plugins must be added before the following line
-call vundle#end()            " required
-filetype plugin indent on    " required
-" To ignore plugin indent changes, instead use:
-"filetype plugin on
-"
-" Brief help
-" :PluginList       - lists configured plugins
-" :PluginInstall    - installs plugins; append `!` to update or just :PluginUpdate
-" :PluginSearch foo - searches for foo; append `!` to refresh local cache
-" :PluginClean      - confirms removal of unused plugins; append `!` to auto-approve removal
-"
-" see :h vundle for more details or wiki for FAQ
-" Put your non-Plugin stuff after this line
-
-" My vim code
+set number
 let mapleader = "-"
+let maplocalleader = "\\"
 
-:nnoremap <leader>ev :split $MYVIMRC<cr>
+call plug#begin()
+Plug 'tpope/vim-sensible'
+Plug 'vim-scripts/paredit.vim'
+Plug 'tpope/vim-fugitive'
+Plug 'vim-airline/vim-airline'
+call plug#end()
 
-set number 
-syntax on
-set expandtab
-set shiftwidth=2
-set tabstop=2
-set softtabstop=2
+nnoremap <leader>ev :split $MYVIMRC<cr>
+nnoremap <leader>sv :source $MYVIMRC<cr> 
 
 " deletes single line when in insert mode
 inoremap <c-d> <esc>ddi
 " changes a word to upper case when in insert mode
 inoremap <c-u> <esc>viwUea
+" wraps the word with quotes
+nnoremap <leader>" viw<esc>a"<esc>bi"<esc>lel
+
+" cpp abbreviation text
+iabbrev icpp #include <bits/stdc++.h><cr>#define ll long long<cr>#define ull unsigned long long<cr>using namespace std;<cr><cr>int main() {<cr><cr>return 0;<cr>}
 

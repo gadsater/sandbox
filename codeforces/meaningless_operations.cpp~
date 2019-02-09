@@ -1,0 +1,16 @@
+#include <stdlib.h>
+#include <bits/stdc++.h>
+#define ll long long
+using namespace std;
+
+int main() {
+  int a = 67;
+  char arr[32];
+  itoa(a, arr, 2);
+  cout << arr << endl;
+  a = ~a;
+  itoa(a, arr, 2);
+  cout << arr << endl;
+  return 0;
+}
+
