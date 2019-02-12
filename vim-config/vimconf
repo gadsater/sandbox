@@ -1,24 +1,46 @@
 set number
+set shiftwidth=2
+set softtabstop=2
+set tabstop=2
 let mapleader = "-"
 let maplocalleader = "\\"
+
+" slimv config
+let g:slimv_swank_cmd = "!ros -e '(ql:quickload :swank) (swank:create-server)' wait &"
+let g:slimv_lisp = 'ros run'
+let g:slimv_impl = 'sbcl'
 
 call plug#begin()
 Plug 'tpope/vim-sensible'
 Plug 'vim-scripts/paredit.vim'
 Plug 'tpope/vim-fugitive'
-Plug 'vim-airline/vim-airline'
+Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
+Plug 'tpope/vim-fireplace', { 'for': 'clojure' }
+Plug 'kovisoft/slimv'
 call plug#end()
+
 
 nnoremap <leader>ev :split $MYVIMRC<cr>
 nnoremap <leader>sv :source $MYVIMRC<cr> 
 
 " deletes single line when in insert mode
-inoremap <c-d> <esc>ddi
+inoremap <C-D> <esc>ddi
 " changes a word to upper case when in insert mode
-inoremap <c-u> <esc>viwUea
+inoremap <C-U> <esc>viwUea
 " wraps the word with quotes
 nnoremap <leader>" viw<esc>a"<esc>bi"<esc>lel
 
 " cpp abbreviation text
-iabbrev icpp #include <bits/stdc++.h><cr>#define ll long long<cr>#define ull unsigned long long<cr>using namespace std;<cr><cr>int main() {<cr><cr>return 0;<cr>}
+iabbrev icpp 
+			\#include <bits/stdc++.h>
+			\<CR>#define ll long long
+			\<CR>#define ull unsigned long long
+			\<CR>#define fr(D,V,B,C,E,S) for(D V=B;V C E, V += S)
+			\<CR>#define fri(D,V,B,E) for(D,V,B,"<",E,1)
+			\<CR>using namespace std;
+			\<CR>
+			\<CR>int main() {
+			\<CR>
+			\<CR>return 0;
+			\<CR>}
 
