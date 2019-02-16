@@ -47,14 +47,6 @@
 					   ((eql c #\Space) "00")
 					   (t (- (char-code c) 65)))) 
 			   (coerce (read-line) 'list)))
+
 ||#
-
-(loop repeat (read)
-   do (format t "~{~a~^:~}~%" (mapcar #'(lambda (c) (cond
-						    ((eql c #\A) "AM")
-						    ((eql c #\Z) "PM")
-						    ((eql c #\Space) "00")
-						    (t (- (char-code c) 65)))) 
-				    (coerce (read-line) 'list))))
-
 
