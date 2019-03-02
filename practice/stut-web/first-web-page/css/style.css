@@ -1,0 +1,21 @@
+* {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+}
+.main {
+    background-size: cover;
+    display: flex;
+    flex-direction: row;
+}
+.code-area, .eval-area {
+    display: block;
+    background: blanchedalmond;
+    margin: 5px;
+    padding: 5px;
+    border: 4px solid rgb(102, 202, 115);
+    border-radius: 10px;
+    height: 95%;
+    width: 95%;
+}

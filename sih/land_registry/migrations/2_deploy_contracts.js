@@ -1,5 +1,5 @@
-var Election = artifacts.require("./Election.sol");
+var LandRegistry = artifacts.require("./LandRegistry.sol");
 
 module.exports = function(deployer) {
-  deployer.deploy(Election);
+  deployer.deploy(LandRegistry);
 };

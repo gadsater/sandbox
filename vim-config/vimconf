@@ -26,7 +26,7 @@ nnoremap <leader>sv :source $MYVIMRC<cr>
 " deletes single line when in insert mode
 inoremap <C-D> <esc>ddi
 " changes a word to upper case when in insert mode
-inoremap <C-U> <esc>viwUea
+inoremap <c-u> <esc>viwUea
 " wraps the word with quotes
 nnoremap <leader>" viw<esc>a"<esc>bi"<esc>lel
 
