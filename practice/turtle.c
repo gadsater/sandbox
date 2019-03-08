@@ -92,8 +92,8 @@ static SCM turtle_move(SCM length) {
 }
 
 static SCM turtle_quit() {
-	fprintf(global_output, "quit\n");
-	return SCM_UNSPECIFIED;
+  fprintf(global_output, "quit\n");
+  return SCM_UNSPECIFIED;
 }
 
 static void *register_functions(void *data) {
@@ -112,7 +112,7 @@ int main(int argc, char* argv[]) {
 	turtle_pendown();
 	scm_with_guile(&register_functions, NULL);
 	scm_shell(argc, argv);
-	
+
 	return EXIT_SUCCESS;
 }
 

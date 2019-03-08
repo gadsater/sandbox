@@ -5,18 +5,13 @@ set tabstop=2
 let mapleader = "-"
 let maplocalleader = "\\"
 
-" slimv config
-let g:slimv_swank_cmd = "!ros -e '(ql:quickload :swank) (swank:create-server)' wait &"
-let g:slimv_lisp = 'ros run'
-let g:slimv_impl = 'sbcl'
-
 call plug#begin()
 Plug 'tpope/vim-sensible'
 Plug 'vim-scripts/paredit.vim'
 Plug 'tpope/vim-fugitive'
-Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
-Plug 'tpope/vim-fireplace', { 'for': 'clojure' }
-Plug 'kovisoft/slimv'
+Plug 'scrooloose/nerdtree'
+Plug 'tpope/vim-fireplace'
+Plug 'tomlion/vim-solidity'
 call plug#end()
 
 
