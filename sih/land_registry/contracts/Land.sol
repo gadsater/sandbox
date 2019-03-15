@@ -1,6 +1,6 @@
 pragma solidity ^0.5.0;
 
-contract LandRegistry {
+contract Land {
   address owner;
 
   enum privilege { admin, registrar, customer } // 0 -> admin, 1 -> registrar, 2-> customer
@@ -25,7 +25,8 @@ contract LandRegistry {
     address[] landPreviousOwners;
     address landOwnerValidator;
     landState landStatus;
-    address specifyLandTo; 
+    address specifyLandTo;
+		uint payableAmount;
   }
   
   struct userDetails {
@@ -40,7 +41,9 @@ contract LandRegistry {
   uint public landcount;
   mapping(address => userDetails) public Users;
   uint public usercount;
-  
+ 
+	event transferMoney(address ownerAddress, uint amount);
+
   constructor() public {
     owner = msg.sender;
     userDetails memory user = userDetails({
@@ -80,6 +83,7 @@ contract LandRegistry {
             landPreviousOwners: new address[](0),
             landOwnerValidator: msg.sender,
             specifyLandTo: address(0),
+						payableAmount: 0,
             landStatus: landState.owned
             });
       Lands[_landTag] = land;
@@ -100,7 +104,15 @@ contract LandRegistry {
     }
     return false;
   }
-  
+
+  function chLandPayableAmount(uint _landTag, uint _payableAmount) public returns (bool) {
+    if (Lands[_landTag].landOwnerAddress == msg.sender) {
+      Lands[_landTag].payableAmount = _payableAmount;
+      return true;
+    }
+    return false;
+  }
+
   function registerUser(string memory _userName, address _userAddress) public isAdmin returns (bool) { 
     if (Users[_userAddress].userAddress == address(0)) {
       usercount++;
@@ -109,7 +121,7 @@ contract LandRegistry {
             userName: _userName,
             userAddress: _userAddress,
             userPrivilege: privilege.customer,
-            userBalance: 100
+            userBalance: _userAddress.balance
             });
       Users[_userAddress] = user;
       return true;
@@ -125,7 +137,7 @@ contract LandRegistry {
             userName: _userName,
             userAddress: msg.sender,
             userPrivilege: privilege.customer,
-            userBalance: 100
+            userBalance: msg.sender.balance
             });
       Users[msg.sender] = user;
       return true;
@@ -133,28 +145,25 @@ contract LandRegistry {
     return false;
   }
   
-  function transactLand(uint _landTag, uint amount) public payable returns (bool) {
+  function transactLand(uint _landTag) public payable returns (bool) {
     
     userDetails storage userBuy = Users[msg.sender];
-    if(userBuy.userBalance >= amount) {
-    
-      landDetails storage land = Lands[_landTag];
-      if (land.landStatus == landState.onSale) {
-    
-        userDetails storage userSell = Users[land.landOwnerAddress];
+    landDetails storage land = Lands[_landTag];
+    if (land.landStatus == landState.onSale) {// && 
+				//userBuy.userAddress.balance >= land.payableAmount) {
+  
+      userDetails storage userSell = Users[land.landOwnerAddress];
+       
+			land.landOwnerAddress.send(land.payableAmount * 1 ether);
+			
+      land.landPreviousOwners.push(land.landOwnerAddress);
+		  land.landOwnerAddress = msg.sender;
+      land.landOwnerName = Users[msg.sender].userName;
+      land.landStatus = landState.owned;
         
-        userSell.userBalance += amount;
-        userBuy.userBalance -= amount;
-        
-        land.landPreviousOwners.push(land.landOwnerAddress);
-        land.landOwnerAddress = msg.sender;
-        land.landOwnerName = Users[msg.sender].userName;
-        land.landStatus = landState.owned;
-        
-        landDetails memory landmem = land;
-        Lands[_landTag] = landmem;
-        return true;
-      }
+      landDetails memory landmem = land;
+      Lands[_landTag] = landmem;
+      return true;
     }
     return false;
   }  
