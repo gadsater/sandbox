@@ -23,10 +23,10 @@ contract Land {
     string landOwnerName;
     address payable landOwnerAddress;
     address[] landPreviousOwners;
-    address landOwnerValidator;
+    address landValidator;
     landState landStatus;
     address specifyLandTo;
-		uint payableAmount;
+		uint landBid;
   }
   
   struct userDetails {
@@ -81,9 +81,9 @@ contract Land {
             landOwnerName: user.userName,
             landOwnerAddress: _landOwnerAddress,
             landPreviousOwners: new address[](0),
-            landOwnerValidator: msg.sender,
+            landValidator: msg.sender,
             specifyLandTo: address(0),
-						payableAmount: 0,
+						landBid: 0,
             landStatus: landState.owned
             });
       Lands[_landTag] = land;
@@ -105,9 +105,9 @@ contract Land {
     return false;
   }
 
-  function chLandPayableAmount(uint _landTag, uint _payableAmount) public returns (bool) {
+  function chLandPayableAmount(uint _landTag, uint _landBid) public returns (bool) {
     if (Lands[_landTag].landOwnerAddress == msg.sender) {
-      Lands[_landTag].payableAmount = _payableAmount;
+      Lands[_landTag].landBid = _landBid;
       return true;
     }
     return false;
@@ -150,11 +150,11 @@ contract Land {
     userDetails storage userBuy = Users[msg.sender];
     landDetails storage land = Lands[_landTag];
     if (land.landStatus == landState.onSale) {// && 
-				//userBuy.userAddress.balance >= land.payableAmount) {
+				//userBuy.userAddress.balance >= land.landBid) {
   
       userDetails storage userSell = Users[land.landOwnerAddress];
        
-			land.landOwnerAddress.send(land.payableAmount * 1 ether);
+			land.landOwnerAddress.send(land.landBid * 1 ether);
 			
       land.landPreviousOwners.push(land.landOwnerAddress);
 		  land.landOwnerAddress = msg.sender;

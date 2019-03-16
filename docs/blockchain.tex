@@ -1,4 +1,4 @@
-% Created 2019-03-11 Mon 16:30
+% Created 2019-03-16 Sat 15:01
 % Intended LaTeX compiler: pdflatex
 \documentclass[11pt]{article}
 \usepackage[utf8]{inputenc}
@@ -14,11 +14,10 @@
 \usepackage{amssymb}
 \usepackage{capt-of}
 \usepackage{hyperref}
-\author{Dhanush GA}
 \date{\today}
 \title{Land-Registry-Implementation}
 \hypersetup{
- pdfauthor={Dhanush GA},
+ pdfauthor={},
  pdftitle={Land-Registry-Implementation},
  pdfkeywords={},
  pdfsubject={},
@@ -27,75 +26,50 @@
 \begin{document}
 
 \maketitle
-\tableofcontents
 
+\section{Contribution}
+\label{sec:org5b365a2}
+The core logic of our transaction model is handled by smart contracts. It includes methods to store details of lands, details of users and transact land from one customer to another. The person who deploys smart contract is given the admin privilege.     
+\subsection{System Model}
+\label{sec:org026fd27}
+We use two structures to represent the details of Land and User.
+\subsubsection{Land Details}
+\label{sec:orgcb39089}
+\begin{itemize}
+\item \textbf{Land ID} - An integer value that denotes the index of the land.
+\item \textbf{Land Tag} - A unique tag associated with each land.
+\item \textbf{Land Owner Name} - Name of the land owner.
+\item \textbf{Land Owner Address} - Address of the land owner.
+\item \textbf{Land Owner Validator} - Address of the validator who validated this land.
+\item \textbf{Land Status} - Denotes whether land is on sale or not.
+\item \textbf{Land Bid} - Specifies the price of the land
+\end{itemize}
 
-\section{Implementation}
-\label{sec:org872a95f}
-The particular application has been developed using Blockchain technologies provided by Ethereum. The core of this application is handled by smart contracts. All the programming logic required to register users, lands and handle land transactions are written in smart contracts using the programming language called Solidity. This language is similar to javascript but helps us prevent critical errors like memory leaks, type errors etc. These smart contracts are compiled and then run on the Ethereum Virtual Machine (EVM). This Virtual Machine provides the resources for our smart contract to execute and its speciality is that it runs on the Ethereum Blockchain. Each state of a program is recorded as a transaction in the blockchain. 
+\subsubsection{User Details}
+\label{sec:orgea80691}
+\begin{itemize}
+\item \textbf{User ID} - An integer value that denotes the index of the user.
+\item \textbf{User Name} - Name of the user.
+\item \textbf{User Address} - Address of the user.
+\item \textbf{User Balance} - Stores the balance (in ether) of the user.
+\item \textbf{User Privilege} - Denotes the privilege of user. Can be one amongst the following: Admin, Registrar and Customer.
+\end{itemize}
 
-To test this application, we run it in our local network using tools like Ganache and Truffle. Ganache simulates a local blockchain in our test environment by hosting a local blockchain and providing a few accounts to perform transactions. Truffle is used to compile the written smart contract and migrate (deploy) the contract to a running instance of a blockchain network. In our test network, we provide the address as that of the localhost (//127.0.0.1) and the port as 8545 (we can set the port value manually). After setting up all this to deploy our contract in a blockchain network, we could interact with our smart contract using ‘truffle console’ command. This command starts a console in which we could interact with our deployed contract and call the functions linked with our contract.
-
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=.9\linewidth]{./ganache-interface.png}
-\caption{Ganache User Interface}
-\end{figure}
-
-\subsection{User Registration}
-\label{sec:org92f1944}
-To register an user, we invoke registerUser() method. This function call receives user details and converts into a data structure holding user details. This data is then permanently stored in our blockchain.
-
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=.9\linewidth]{./register-person-1.png}
-\caption{registerUser() method demonstration}
-\end{figure}
-
-\subsection{Land Registration}
-\label{sec:org399147b}
-Similar to user registration, we invoke registerLand() method to resgister a land. This method can only be used by privileged users (admin and regsistrar).
-This data is converted to a data structure holding land details and then permanently stored in our blockchain. 
-
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=.9\linewidth]{./register-land-1.png}
-\caption{registerLand() method demonstration}
-\end{figure}
-
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=.9\linewidth]{./land-details-1-2.png}
-\caption{Land stored in Blockchain}
-\end{figure}
-
-\subsection{Land Transaction}
-\label{sec:orgff0bfd9}
-Land Transaction is carried out in this system only when the land is allowed to be sold. So, we include a method called chLandStatus() to allow the land owner to sell the land.
-
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=.9\linewidth]{./change-land-status.png}
-\caption{chLandStatus() method demonstration}
-\end{figure}
-
-If land is on sale \(\alpha\) \(\rightarrow\) \(\beta\), then invoking transactLand() method transfers the land from the land owner to the person invoking the method. Balance is deducted from the buyer's account and added to the seller's account. The land again changes to owned state. 
-
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=.9\linewidth]{./transact-land.png}
-\caption{transactLand() method demonstration}
-\end{figure}
-
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=.9\linewidth]{./land-status-after-transaction.png}
-\caption{Land details after transaction}
-\end{figure}
-
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=.9\linewidth]{./user-status-after-transaction.png}
-\caption{Updated user account details}
-\end{figure}
+\subsubsection{\textbf{User Registration}}
+\label{sec:orge64e160}
+The following methods are used to perform user registration:
+\begin{itemize}
+\item \textbf{registerCustomer()} - This method is used to register an user with Customer privilege. It receives Name of the user as a parameter, finds out the address of the user from the person who calls the smart contract and creates the user details structure associated with the customer. This structure is then stored in a Users mapping.
+\item \textbf{registerUser()} - This method can be invoked only by an user with Admin privilege. An admin can specify both the user name and user address in order to register the user. Similar to the previous method, a structure is created and the details get stored in the Users mapping.
+\end{itemize}
+\subsubsection{\textbf{Land Registration}}
+\label{sec:org1b0406c}
+\begin{itemize}
+\item \textbf{registerLand()} - This method can be invoked only by an user with privilege level of Admin or Registrar. It is assumed that the presence of land is verified before the land is registered in this system. An unique tag and land owner address is fed in as parameters. This is used to create the land detail structure and store it in Lands mapping.
+\end{itemize}
+\subsubsection{\textbf{Land Transaction}}
+\label{sec:org673e852}
+\begin{itemize}
+\item \textbf{transactLand()} - This method is invoked to transfer land ownership from one user to another. The land tag associated with the land is fed in as parameter. The user who calls this method is the buyer and the land owner is the seller. If the land is in 'sellable' state and if the buyer has enough balance to purchase the land, the transaction is initiated. The ownership of the land changes and the balance deducted from buyer is added to the wallet of seller.
+\end{itemize}
 \end{document}
