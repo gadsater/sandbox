@@ -1,7 +1,0 @@
-(defvar *x* "Hello")
-
-(let ((x *x*))
-  (setf x "world")
-  (format t "~a~%" x))
-
-(format t "~a~%" *x*)

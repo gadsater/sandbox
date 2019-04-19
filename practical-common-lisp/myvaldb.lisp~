@@ -1,6 +1,0 @@
-(defvar *store-db* nil)
-
-(defun create-db (dbname)
-  (push *store-db* (:db-name dbname :table '())))
-
-
