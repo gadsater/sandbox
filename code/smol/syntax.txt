@@ -1,0 +1,36 @@
+use "io"
+
+x, y := "forty-two", 42  
+
+io.Println("$x: $y")
+
+someVal := io.Readln()
+
+keywords:
+true
+false
+nil
+mod
+use
+typ
+cls
+ifs
+els
+fit
+for
+def
+is
+do
+end
+fun
+in
+on
+to
+num
+dec
+str
+arr
+set
+tup
+rec
+ret
