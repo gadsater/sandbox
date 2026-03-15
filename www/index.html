@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Canvas Whiteboard</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="app">
+        <!-- Sidebar: vault / shelf navigator -->
+        <aside id="sidebar">
+            <h2 id="vault-name">My Vault</h2>
+            <div id="shelf-tree"></div>
+            <button id="btn-new-shelf">+ New Shelf</button>
+        </aside>
+
+        <!-- Main canvas area -->
+        <main id="canvas-area">
+            <div id="toolbar">
+                <button id="btn-select" class="tool active" title="Select">S</button>
+                <button id="btn-draw" class="tool" title="Draw">D</button>
+                <button id="btn-text" class="tool" title="New Text Block">T</button>
+                <input type="color" id="pen-color" value="#000000" title="Pen Color">
+                <input type="range" id="pen-width" min="1" max="10" value="2" title="Pen Width">
+                <span id="zoom-display">100%</span>
+            </div>
+            <canvas id="whiteboard"></canvas>
+            <!-- Overlay for editing text blocks (markdown) -->
+            <div id="text-overlay" class="hidden">
+                <textarea id="block-editor" placeholder="Type markdown here..."></textarea>
+            </div>
+            <!-- Rendered markdown preview -->
+            <div id="markdown-preview" class="hidden"></div>
+        </main>
+
+        <!-- Script console -->
+        <div id="script-panel" class="hidden">
+            <textarea id="script-input" placeholder="Write script here..."></textarea>
+            <button id="btn-run-script">Run</button>
+            <pre id="script-output"></pre>
+        </div>
+    </div>
+
+    <script type="module" src="index.js"></script>
+</body>
+</html>
