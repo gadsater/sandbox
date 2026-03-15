@@ -1,4 +1,4 @@
-/target
-/pkg
+**/target
+**/pkg
 *.wasm
 Cargo.lock
